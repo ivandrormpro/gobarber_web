@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Form } from '@unform/web';
 
@@ -31,6 +31,7 @@ const SignIn: React.FC = () => {
 
     const { signIn } = useAuth();
     const { addToast } = useToast();
+    const history = useHistory();
 
     const handleSubmit = useCallback(async (data: SignInForm) => {
 
@@ -50,6 +51,7 @@ const SignIn: React.FC = () => {
                 password: data.password
             });
 
+            history.push('/dashboard');
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 const errors = getValidationErrors(err);
@@ -63,7 +65,7 @@ const SignIn: React.FC = () => {
                 description: 'Ocorreu um erro ao fazer login, verifique as credenciais'
             });
         }
-    }, [signIn, addToast]);
+    }, [signIn, addToast, history]);
 
     return (
         <Container>
